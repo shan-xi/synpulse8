@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                 mvc.pattern("/auth/login/**"),
+                                mvc.pattern("/test/**"),
                                 mvc.pattern("/swagger-ui/**"),
                                 mvc.pattern("/v3/**")
                         ).permitAll().anyRequest().authenticated());

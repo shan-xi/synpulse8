@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Tag(name = "Auth", description = "Auth management APIs")
+@Tag(name = "E-Banking - Auth", description = "Auth management APIs")
 @RequestMapping("/auth")
 public interface AuthController {
     @Operation(

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Tag(name = "Transaction", description = "Transaction management APIs")
+@Tag(name = "E-Banking - Transaction", description = "Transaction management APIs")
 @RequestMapping("/transactions")
 public interface TransactionController {
     @SecurityRequirement(name = "Bearer Authentication")
@@ -25,5 +25,4 @@ public interface TransactionController {
                     useReturnTypeSchema = true))
     @GetMapping(value = "/{account_id}")
     ResponseEntity<TransactionListRes> getTransactionList(@PathVariable("account_id") String account_id);
-
 }

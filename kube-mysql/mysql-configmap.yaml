@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config-map
+data:
+  mysql-server: ebanking-mysql
+  mysql-database-name: synpulse8
+  mysql-user-username: spin
