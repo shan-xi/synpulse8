@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ebanking-spring
+  namespace: kafka
   labels:
     app: ebanking-spring
 spec:
@@ -26,6 +27,11 @@ spec:
               cpu: 0.2
               memory: "1Gi"
           env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-config-map
+                  key: KAFKA_BOOTSTRAP_SERVERS
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:

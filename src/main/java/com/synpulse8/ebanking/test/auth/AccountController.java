@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Test - Account", description = "Account management APIs")
 @RequestMapping("/test/account")
-
 @RestController
 public class AccountController {
     private final AccountRepository accountRepository;
