@@ -27,11 +27,6 @@ spec:
               cpu: 0.2
               memory: "1Gi"
           env:
-            - name: KAFKA_BOOTSTRAP_SERVERS
-              valueFrom:
-                secretKeyRef:
-                  name: kafka-config-map
-                  key: KAFKA_BOOTSTRAP_SERVERS
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
