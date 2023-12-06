@@ -1,7 +1,10 @@
 package com.synpulse8.ebanking.account.entity;
 
+import com.synpulse8.ebanking.transactions.entity.Transaction;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Builder
 @Getter
@@ -11,21 +14,19 @@ import lombok.*;
 @Entity
 @Table(name = "ACCOUNT", indexes = @Index(columnList = "name"))
 public class Account {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "uid", columnDefinition = " VARCHAR(12) COMMENT 'account uid' ")
+    private String uid;
     @Column(name = "name", columnDefinition = " varchar(20) COMMENT 'account name' ")
     private String name;
-
-    @Column(name = "email", columnDefinition = " varchar(100) COMMENT 'email' ")
-    private String email;
-
     @Column(name = "password", columnDefinition = " varchar(100) COMMENT 'password' ")
     private String password;
+    @Column(name = "currency", columnDefinition = " varchar(3) COMMENT 'currency' ")
+    private String currency;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactionList;
 
-    public Account(String email) {
-        this.email = email;
+    public Account(String uid) {
+        this.uid = uid;
     }
 }

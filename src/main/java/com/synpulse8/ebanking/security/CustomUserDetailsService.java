@@ -19,14 +19,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
         // TODO define custom exception
-        var account = accountRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("user account not found"));
+        var account = accountRepository.findByUid(uid).orElseThrow(() -> new RuntimeException("user account not found"));
         // TODO define role-account schema
         var roles = new ArrayList<String>();
         roles.add("USER");
         return User.builder()
-                .username(account.getEmail())
+                .username(account.getUid())
                 .password(account.getPassword())
                 .roles(roles.toArray(new String[0]))
                 .build();

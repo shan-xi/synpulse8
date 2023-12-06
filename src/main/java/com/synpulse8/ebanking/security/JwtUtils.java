@@ -1,6 +1,5 @@
 package com.synpulse8.ebanking.security;
 
-import com.synpulse8.ebanking.account.entity.Account;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,9 +29,8 @@ public class JwtUtils {
         this.jwtParser = Jwts.parser().setSigningKey(SECRET_KEY);
     }
 
-    public String createToken(Account account) {
-        var claims = Jwts.claims().setSubject(account.getEmail());
-        claims.put("username", account.getName());
+    public String createToken(String accountUid) {
+        var claims = Jwts.claims().setSubject(accountUid);
         var tokenCreateTime = new Date();
         var tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(ACCESS_TOKEN_VALIDITY));
         return Jwts.builder()
@@ -72,14 +70,10 @@ public class JwtUtils {
     }
 
     public boolean validateClaims(Claims claims) throws AuthenticationException {
-        try {
-            return claims.getExpiration().after(new Date());
-        } catch (Exception e) {
-            throw e;
-        }
+        return claims.getExpiration().after(new Date());
     }
 
-    public String getEmail(Claims claims) {
+    public String getUid(Claims claims) {
         return claims.getSubject();
     }
 

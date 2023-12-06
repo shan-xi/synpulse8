@@ -42,13 +42,14 @@ public class AccountController {
         var b = new BCryptPasswordEncoder();
         var encodePassword = b.encode(req.password());
         var account = Account.builder()
+                .uid(req.uid())
+                .currency(req.currency())
                 .name(req.name())
-                .email(req.email())
                 .password(encodePassword)
                 .build();
         accountRepository.save(account);
         return ResponseEntity.ok(new CreateAccountRes(
-                req.email(),
+                req.uid(),
                 encodePassword
         ));
     }

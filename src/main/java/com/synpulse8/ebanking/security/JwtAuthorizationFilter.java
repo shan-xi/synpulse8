@@ -41,11 +41,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
             log.debug("token : {}", accessToken);
             var claims = jwtUtils.resolveClaims(request);
-
-            if (claims != null & jwtUtils.validateClaims(claims)) {
-                var email = claims.getSubject();
-                log.debug("email : {}", email);
-                var authentication = new UsernamePasswordAuthenticationToken(email, "", new ArrayList<>());
+            if (claims != null && jwtUtils.validateClaims(claims)) {
+                var uid = claims.getSubject();
+                var authentication = new UsernamePasswordAuthenticationToken(uid, "", new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 

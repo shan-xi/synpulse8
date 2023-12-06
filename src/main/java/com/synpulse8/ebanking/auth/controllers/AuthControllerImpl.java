@@ -1,6 +1,5 @@
 package com.synpulse8.ebanking.auth.controllers;
 
-import com.synpulse8.ebanking.account.entity.Account;
 import com.synpulse8.ebanking.auth.dto.LoginReq;
 import com.synpulse8.ebanking.auth.dto.LoginRes;
 import com.synpulse8.ebanking.security.JwtUtils;
@@ -21,11 +20,10 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     public ResponseEntity<LoginRes> login(LoginReq loginReq) {
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.email(), loginReq.password()));
-        var email = authentication.getName();
-        var account = new Account(email);
-        var token = jwtUtils.createToken(account);
-        var loginRes = new LoginRes(email, token);
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.uid(), loginReq.password()));
+        var uid = authentication.getName();
+        var token = jwtUtils.createToken(uid);
+        var loginRes = new LoginRes(token);
         return ResponseEntity.ok(loginRes);
     }
 }
