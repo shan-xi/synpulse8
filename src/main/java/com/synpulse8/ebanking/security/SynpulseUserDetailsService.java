@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class SynpulseUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-    public CustomUserDetailsService(AccountRepository accountRepository) {
+    public SynpulseUserDetailsService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 

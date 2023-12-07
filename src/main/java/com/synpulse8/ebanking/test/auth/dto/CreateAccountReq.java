@@ -1,8 +1,10 @@
 package com.synpulse8.ebanking.test.auth.dto;
 
+import com.synpulse8.ebanking.Currency;
+
 public record CreateAccountReq(
         String uid,
-        String currency,
+        Currency currency,
         String name,
         String password) {
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -40,30 +41,31 @@ public class JwtUtils {
                 .compact();
     }
 
+    public Claims resolveClaims(HttpServletRequest req) {
+        try {
+            var token = resolveToken(req);
+            return (token != null) ? parseJwtClaims(token) : null;
+        } catch (ExpiredJwtException ex) {
+            handleJwtException(req, "expired", ex);
+            throw ex;
+        } catch (Exception ex) {
+            handleJwtException(req, "invalid", ex);
+            throw ex;
+        }
+    }
+    
     private Claims parseJwtClaims(String token) {
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
-    public Claims resolveClaims(HttpServletRequest req) {
-        try {
-            var token = resolveToken(req);
-            if (token != null) {
-                return parseJwtClaims(token);
-            }
-            return null;
-        } catch (ExpiredJwtException ex) {
-            req.setAttribute("expired", ex.getMessage());
-            throw ex;
-        } catch (Exception ex) {
-            req.setAttribute("invalid", ex.getMessage());
-            throw ex;
-        }
+    private void handleJwtException(HttpServletRequest req, String attributeName, Exception ex) {
+        req.setAttribute(attributeName, ex.getMessage());
     }
 
     public String resolveToken(HttpServletRequest request) {
 
         var bearerToken = request.getHeader(TOKEN_HEADER);
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+        if (Objects.nonNull(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(TOKEN_PREFIX.length());
         }
         return null;

@@ -1,5 +1,6 @@
 package com.synpulse8.ebanking.transactions.entity;
 
+import com.synpulse8.ebanking.Currency;
 import com.synpulse8.ebanking.account.entity.Account;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,8 +21,9 @@ public class Transaction {
     @Id
     @Column(name = "transaction_id", columnDefinition = " VARCHAR(36) COMMENT 'Transaction ID' ")
     private String transactionId;
-    @Column(name = "currency", columnDefinition = " varchar(3) COMMENT 'currency' ")
-    private String currency;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "currency", columnDefinition = "SMALLINT COMMENT 'currency'")
+    private Currency currency;
     @Column(name = "amount", columnDefinition = "DOUBLE COMMENT 'Amount' ")
     private Double amount;
     @Column(name = "iban", columnDefinition = " varchar(26) COMMENT 'IBAN' ")

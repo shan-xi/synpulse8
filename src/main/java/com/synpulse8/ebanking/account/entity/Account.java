@@ -1,5 +1,6 @@
 package com.synpulse8.ebanking.account.entity;
 
+import com.synpulse8.ebanking.Currency;
 import com.synpulse8.ebanking.transactions.entity.Transaction;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,8 +22,9 @@ public class Account {
     private String name;
     @Column(name = "password", columnDefinition = " varchar(100) COMMENT 'password' ")
     private String password;
-    @Column(name = "currency", columnDefinition = " varchar(3) COMMENT 'currency' ")
-    private String currency;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "currency", columnDefinition = "SMALLINT COMMENT 'currency'")
+    private Currency currency;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactionList;
 

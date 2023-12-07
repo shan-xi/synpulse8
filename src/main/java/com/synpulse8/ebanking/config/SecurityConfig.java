@@ -1,8 +1,8 @@
 package com.synpulse8.ebanking.config;
 
-import com.synpulse8.ebanking.security.CustomUserDetailsService;
 import com.synpulse8.ebanking.security.JwtAuthenticationEntryPoint;
 import com.synpulse8.ebanking.security.JwtAuthorizationFilter;
+import com.synpulse8.ebanking.security.SynpulseUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -24,15 +24,15 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomUserDetailsService userDetailsService;
+    private final SynpulseUserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService,
+    public SecurityConfig(SynpulseUserDetailsService synpulseUserDetailsService,
                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                           JwtAuthorizationFilter jwtAuthorizationFilter) {
-        this.userDetailsService = customUserDetailsService;
+        this.userDetailsService = synpulseUserDetailsService;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(manager -> manager.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+//                .exceptionHandling(manager -> manager.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
                                 mvc.pattern("/auth/login/**"),
