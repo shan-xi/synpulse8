@@ -1,6 +1,6 @@
 package com.synpulse8.ebanking.account.entity;
 
-import com.synpulse8.ebanking.Currency;
+import com.synpulse8.ebanking.enums.Currency;
 import com.synpulse8.ebanking.transactions.entity.Transaction;
 import jakarta.persistence.*;
 import lombok.*;

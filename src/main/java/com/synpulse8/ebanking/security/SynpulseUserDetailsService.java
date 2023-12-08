@@ -1,10 +1,10 @@
 package com.synpulse8.ebanking.security;
 
 import com.synpulse8.ebanking.account.repo.AccountRepository;
+import com.synpulse8.ebanking.exceptions.UserDataNotFoundRuntimeException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ public class SynpulseUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String uid) {
         // TODO define custom exception
-        var account = accountRepository.findByUid(uid).orElseThrow(() -> new RuntimeException("user account not found"));
+        var account = accountRepository.findByUid(uid).orElseThrow(() -> new UserDataNotFoundRuntimeException("user account not found"));
         // TODO define role-account schema
         var roles = new ArrayList<String>();
         roles.add("USER");

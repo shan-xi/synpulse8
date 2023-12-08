@@ -2,6 +2,8 @@ package com.synpulse8.ebanking.test.auth;
 
 import com.synpulse8.ebanking.account.entity.Account;
 import com.synpulse8.ebanking.account.repo.AccountRepository;
+import com.synpulse8.ebanking.enums.Status;
+import com.synpulse8.ebanking.response.dto.ResponseDto;
 import com.synpulse8.ebanking.test.auth.dto.CreateAccountReq;
 import com.synpulse8.ebanking.test.auth.dto.CreateAccountRes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +37,7 @@ public class AccountController {
                     description = "Create account success",
                     useReturnTypeSchema = true))
     @PostMapping(value = "/create-account")
-    ResponseEntity<CreateAccountRes> createAccount(
+    ResponseEntity<ResponseDto<CreateAccountRes>> createAccount(
             @Schema(implementation = CreateAccountReq.class)
             @RequestBody
             CreateAccountReq req) {
@@ -48,9 +50,14 @@ public class AccountController {
                 .password(encodePassword)
                 .build();
         accountRepository.save(account);
-        return ResponseEntity.ok(new CreateAccountRes(
-                req.uid(),
-                encodePassword
-        ));
+        return ResponseEntity.ok(
+                new ResponseDto<>(
+                        Status.SUCCESS,
+                        new CreateAccountRes(
+                                req.uid(),
+                                encodePassword
+                        )
+                )
+        );
     }
 }

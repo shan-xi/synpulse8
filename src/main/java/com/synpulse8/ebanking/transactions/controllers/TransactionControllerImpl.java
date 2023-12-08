@@ -1,5 +1,7 @@
 package com.synpulse8.ebanking.transactions.controllers;
 
+import com.synpulse8.ebanking.enums.Status;
+import com.synpulse8.ebanking.response.dto.ResponseDto;
 import com.synpulse8.ebanking.transactions.dto.TransactionListRes;
 import com.synpulse8.ebanking.transactions.services.TransactionService;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,17 @@ public class TransactionControllerImpl implements TransactionController {
     }
 
     @Override
-    public ResponseEntity<TransactionListRes> getTransactionList(
+    public ResponseEntity<ResponseDto<TransactionListRes>> getTransactionList(
             String accountUid,
             LocalDate month,
             Integer page,
             Integer size) {
         var res = transactionService.getTransactionList(accountUid, month, page, size);
-        return ResponseEntity.ok().body(res);
+        return ResponseEntity.ok().body(
+                new ResponseDto<>(
+                        Status.SUCCESS,
+                        res
+                )
+        );
     }
 }

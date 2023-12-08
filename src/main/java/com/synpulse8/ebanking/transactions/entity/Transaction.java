@@ -1,7 +1,7 @@
 package com.synpulse8.ebanking.transactions.entity;
 
-import com.synpulse8.ebanking.Currency;
 import com.synpulse8.ebanking.account.entity.Account;
+import com.synpulse8.ebanking.enums.Currency;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;

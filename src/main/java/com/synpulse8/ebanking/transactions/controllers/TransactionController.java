@@ -1,5 +1,6 @@
 package com.synpulse8.ebanking.transactions.controllers;
 
+import com.synpulse8.ebanking.response.dto.ResponseDto;
 import com.synpulse8.ebanking.transactions.dto.TransactionListRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +30,7 @@ public interface TransactionController {
                     description = "Query user transaction records success",
                     useReturnTypeSchema = true))
     @GetMapping(value = "/{accountUid}")
-    ResponseEntity<TransactionListRes> getTransactionList(
+    ResponseEntity<ResponseDto<TransactionListRes>> getTransactionList(
             @PathVariable("accountUid")
             @Schema(description = "User's identity ID", example = "P-0123456789")
             String accountUid,

@@ -1,4 +1,4 @@
-package com.synpulse8.ebanking;
+package com.synpulse8.ebanking.enums;
 
 public enum Currency {
     GBP,

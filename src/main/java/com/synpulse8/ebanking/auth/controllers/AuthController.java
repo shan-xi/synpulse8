@@ -2,6 +2,7 @@ package com.synpulse8.ebanking.auth.controllers;
 
 import com.synpulse8.ebanking.auth.dto.LoginReq;
 import com.synpulse8.ebanking.auth.dto.LoginRes;
+import com.synpulse8.ebanking.response.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +25,7 @@ public interface AuthController {
                     description = "Login success",
                     useReturnTypeSchema = true))
     @PostMapping(value = "/login")
-    ResponseEntity<LoginRes> login(
+    ResponseEntity<ResponseDto<LoginRes>> login(
             @Schema(implementation = LoginReq.class)
             @RequestBody
             LoginReq loginReq);
