@@ -11,6 +11,7 @@ public class KafkaConsumerService {
 
     @KafkaListener(topics = "test-topic", groupId = "test-group-id")
     public void listen(ConsumerRecord<String, String> record) {
+        log.info("Received message: " + record.key());
         log.info("Received message: " + record.value());
     }
 }

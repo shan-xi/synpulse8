@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Test - Account", description = "Account management APIs")
+@Tag(name = "Test - Account Simulation", description = "Account Simulation APIs")
 @RequestMapping("/test/account")
 @RestController
 public class AccountController {

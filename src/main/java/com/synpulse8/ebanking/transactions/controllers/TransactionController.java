@@ -34,9 +34,12 @@ public interface TransactionController {
             @PathVariable("accountUid")
             @Schema(description = "User's identity ID", example = "P-0123456789")
             String accountUid,
-            @RequestParam("month") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            @Schema(description = "Transaction month", example = "2023-01-01")
-            LocalDate month,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @Schema(description = "Transaction start date", example = "2023-01-01")
+            LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @Schema(description = "Transaction end date", example = "2023-01-31")
+            LocalDate endDate,
             @RequestParam("pageNumber")
             @Schema(description = "page number", example = "0")
             Integer pageNumber,
