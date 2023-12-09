@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <property name="APP" value="ebanking-transaction-module"/>
+    <property name="LOG_HOME" value="logs/ebanking-transaction-module"/>
+    <property name="CHARSET" value="UTF-8"/>
+    <property name="PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%class{0}.%method :%L] [%msg]%n%rEx"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLINGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${APP}-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <maxFileSize>1024MB</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="ROLLINGFILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

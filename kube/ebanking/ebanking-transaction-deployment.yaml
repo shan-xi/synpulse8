@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ebanking-transaction-spring
+  namespace: synpulse8
+  labels:
+    app: ebanking-transaction-spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ebanking-transaction-spring
+  template:
+    metadata:
+      labels:
+        app: ebanking-transaction-spring
+    spec:
+      containers:
+        - name: ebanking-transaction-spring
+          image: spinliao/ebanking-transaction:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: 0.2
+              memory: "1Gi"
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: kafka-config-map
+                  key: KAFKA_BOOTSTRAP_SERVERS
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SECRET_KEY
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: mysql-user-password
+            - name: DB_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-server
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-database-name
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-user-username
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ebanking-transaction-spring
+  labels:
+    app: ebanking-transaction-spring
+spec:
+  type: LoadBalancer
+  selector:
+    app: ebanking-transaction-spring
+  ports:
+    - protocol: TCP
+      name: http
+      port: 8082
+      targetPort: 8082
+      nodePort: 30001
