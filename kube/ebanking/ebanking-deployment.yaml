@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ebanking-spring
-  namespace: kafka
+  namespace: synpulse8
   labels:
     app: ebanking-spring
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: ebanking-spring
-          image: spinliao/ebanking:1.0
+          image: spinliao/ebanking:1.1
           imagePullPolicy: IfNotPresent
           ports:
             - name: http

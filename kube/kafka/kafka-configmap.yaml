@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: kafka-config-map
 data:
-  KAFKA_BOOTSTRAP_SERVERS: my-cluster-kafka-brokers.kafka.svc.cluster.local:9092
+  KAFKA_BOOTSTRAP_SERVERS: my-cluster-kafka-brokers.synpulse8.svc.cluster.local:9092
