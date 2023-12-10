@@ -64,21 +64,4 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                     return new ExchangeRateAPIRuntimeException("Exchange Rate API error: " + errorMsg);
                 });
     }
-//    @Override
-//    public Map<String, Double> getExchangeRate(String currency) {
-//        RBucket<ExchangeRateResponse> bucket = redissonClient.getBucket(currency + "-exchangeRateResponse");
-//        var exchangeRateResponse = bucket.get();
-//        if (Objects.isNull(exchangeRateResponse)) {
-//            var apiUrl = "https://v6.exchangerate-api.com/v6/{apiKey}/latest/{currency}";
-//            exchangeRateResponse = restTemplate.getForObject(apiUrl, ExchangeRateResponse.class, apiKey, currency);
-//            assert exchangeRateResponse != null;
-//            if (exchangeRateResponse.result().equals("success")) {
-//                bucket.set(exchangeRateResponse);
-//                bucket.expire(Instant.ofEpochSecond(exchangeRateResponse.timeNextUpdateUnix()));
-//            } else {
-//                throw new ExchangeRateAPIRuntimeException("Exchange Rate API error: " + exchangeRateResponse.result());
-//            }
-//        }
-//        return exchangeRateResponse.conversionRates();
-//    }
 }

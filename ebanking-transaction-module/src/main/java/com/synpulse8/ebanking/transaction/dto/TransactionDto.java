@@ -1,12 +1,15 @@
 package com.synpulse8.ebanking.transaction.dto;
 
-import java.util.Date;
+import com.synpulse8.ebanking.enums.BalanceChange;
+
+import java.time.LocalDate;
 
 public record TransactionDto(
         String transactionId,
         Double amount,
+        BalanceChange balanceChange,
         String iban,
-        Date valueDate,
+        LocalDate valueDate,
         String description,
         String accountUid) {
 }

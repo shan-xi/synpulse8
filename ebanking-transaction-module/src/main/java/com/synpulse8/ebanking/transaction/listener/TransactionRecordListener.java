@@ -5,13 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
-import com.synpulse8.ebanking.exceptions.UserDataNotFoundRuntimeException;
-import com.synpulse8.ebanking.transaction.dto.TransactionData;
+import com.synpulse8.ebanking.enums.BalanceChange;
+import com.synpulse8.ebanking.enums.Currency;
+import com.synpulse8.ebanking.test.kafka.dto.TransactionRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Component
@@ -27,24 +31,50 @@ public class TransactionRecordListener {
     }
 
     @KafkaListener(
-            id = "transaction-recordListener-topic",
-            topics = "transaction-recordListener-topic",
+            id = "transaction-record-listener-topic",
+            topics = "transaction-record-listener-topic",
             groupId = "group-synpulse8",
             containerGroup = "group-synpulse8",
             concurrency = "3")
     @Transactional(transactionManager = "transactionManager", rollbackFor = Exception.class)
     public void transactionRecordHandler(ConsumerRecord<String, String> record) throws JsonProcessingException {
-        var transactionData = objectMapper.readValue(record.value(), TransactionData.class);
-        var account = accountRepository.findByUid(transactionData.getAccountUid()).orElseThrow(UserDataNotFoundRuntimeException::new);
+        var transactionRecord = objectMapper.readValue(record.value(), TransactionRecord.class);
+        var amountCurrencyArr = transactionRecord.amountWithCurrency().split(" ");
+        var currency = Currency.fromString(amountCurrencyArr[0]);
+        var amountBalanceChange = parseAmountValue(amountCurrencyArr[1]);
+        var valueDate = convertToDate(transactionRecord.valueDate());
+        var account = accountRepository.findByUidAndCurrency(transactionRecord.accountUid(), currency).orElse(null);
         var transaction = Transaction.builder()
                 .transactionId(record.key())
-                .currency(transactionData.getCurrency())
-                .amount(transactionData.getAmount())
-                .iban(transactionData.getIban())
-                .valueDate(transactionData.getValueDate())
-                .description(transactionData.getDescription())
+                .currency(currency)
+                .amount(amountBalanceChange.amount)
+                .balanceChange(amountBalanceChange.balanceChange)
+                .iban(transactionRecord.iban())
+                .valueDate(valueDate)
+                .description(transactionRecord.description())
                 .account(account)
                 .build();
         transactionRepository.save(transaction);
+    }
+
+    private LocalDate convertToDate(String valueDate) {
+        var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(valueDate, formatter);
+    }
+
+    private AmountBalanceChange parseAmountValue(String value) {
+        var cleanedValue = value.replaceAll("[^0-9.]", "");
+        try {
+            double parsedValue = Double.parseDouble(cleanedValue);
+            var balanceChange = value.endsWith("-") ? BalanceChange.CREDIT : BalanceChange.DEPOSIT;
+            return new AmountBalanceChange(parsedValue, balanceChange);
+        } catch (NumberFormatException e) {
+            throw e;
+        }
+    }
+
+    private record AmountBalanceChange(
+            double amount,
+            BalanceChange balanceChange) {
     }
 }

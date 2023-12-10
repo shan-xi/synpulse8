@@ -1,7 +1,9 @@
 package com.synpulse8.ebanking.transaction.controllers;
 
+import com.synpulse8.ebanking.enums.Currency;
 import com.synpulse8.ebanking.enums.Status;
 import com.synpulse8.ebanking.response.dto.ResponseDto;
+import com.synpulse8.ebanking.security.EbankingPrincipal;
 import com.synpulse8.ebanking.transaction.dto.TransactionListRes;
 import com.synpulse8.ebanking.transaction.dto.TransactionSearchDto;
 import com.synpulse8.ebanking.transaction.services.TransactionService;
@@ -20,12 +22,14 @@ public class TransactionControllerImpl implements TransactionController {
 
     @Override
     public ResponseEntity<ResponseDto<TransactionListRes>> getTransactionList(
-            String accountUid,
+            EbankingPrincipal ebankingPrincipal,
             LocalDate startDate,
             LocalDate endDate,
             Integer page,
-            Integer size) {
-        var res = transactionService.getTransactionList(new TransactionSearchDto(accountUid, startDate, endDate, page, size));
+            Integer size,
+            Currency baseCurrency) {
+        var uid = ebankingPrincipal.getName();
+        var res = transactionService.getTransactionList(new TransactionSearchDto(uid, startDate, endDate, page, size, baseCurrency));
         return ResponseEntity.ok().body(
                 new ResponseDto<>(
                         Status.SUCCESS,

@@ -1,9 +1,6 @@
 package com.synpulse8.ebanking.transaction.dto;
 
-import com.synpulse8.ebanking.enums.Currency;
 import lombok.*;
-
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,10 +8,9 @@ import java.util.Date;
 @Builder
 @Data
 public class TransactionData {
-    private Currency currency;
-    private Double amount;
-    private String iban;
-    private Date valueDate;
-    private String description;
     private String accountUid;
+    private String amountWithCurrency;
+    private String iban;
+    private String valueDate;
+    private String description;
 }

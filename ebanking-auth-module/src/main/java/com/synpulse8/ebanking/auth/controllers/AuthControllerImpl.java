@@ -2,7 +2,6 @@ package com.synpulse8.ebanking.auth.controllers;
 
 import com.synpulse8.ebanking.auth.dto.LoginReq;
 import com.synpulse8.ebanking.auth.dto.LoginRes;
-import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
 import com.synpulse8.ebanking.enums.Status;
 import com.synpulse8.ebanking.exceptions.UserDataNotFoundRuntimeException;
 import com.synpulse8.ebanking.response.dto.ResponseDto;
@@ -17,14 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthControllerImpl implements AuthController {
     private final AuthenticationManager authenticationManager;
-    private final AccountRepository accountRepository;
     private final JwtUtils jwtUtils;
 
     public AuthControllerImpl(AuthenticationManager authenticationManager,
-                              AccountRepository accountRepository,
                               JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
-        this.accountRepository = accountRepository;
         this.jwtUtils = jwtUtils;
     }
 

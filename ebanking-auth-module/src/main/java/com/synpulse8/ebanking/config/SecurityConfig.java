@@ -1,7 +1,7 @@
 package com.synpulse8.ebanking.config;
 
+import com.synpulse8.ebanking.security.EbankingUserDetailsService;
 import com.synpulse8.ebanking.security.JwtAuthorizationFilter;
-import com.synpulse8.ebanking.security.SynpulseUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -23,13 +23,13 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final SynpulseUserDetailsService userDetailsService;
+    private final EbankingUserDetailsService userDetailsService;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
 
-    public SecurityConfig(SynpulseUserDetailsService synpulseUserDetailsService,
+    public SecurityConfig(EbankingUserDetailsService ebankingUserDetailsService,
                           JwtAuthorizationFilter jwtAuthorizationFilter) {
-        this.userDetailsService = synpulseUserDetailsService;
+        this.userDetailsService = ebankingUserDetailsService;
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
     }
 

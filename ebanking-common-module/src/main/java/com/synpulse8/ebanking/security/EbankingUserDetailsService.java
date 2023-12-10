@@ -1,6 +1,6 @@
 package com.synpulse8.ebanking.security;
 
-import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
+import com.synpulse8.ebanking.dao.client.repo.ClientRepository;
 import com.synpulse8.ebanking.exceptions.UserDataNotFoundRuntimeException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class SynpulseUserDetailsService implements UserDetailsService {
+public class EbankingUserDetailsService implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+    private final ClientRepository clientRepository;
 
-    public SynpulseUserDetailsService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public EbankingUserDetailsService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String uid) {
-        var account = accountRepository.findByUid(uid).orElseThrow(() -> new UserDataNotFoundRuntimeException("user account not found"));
+        var client = clientRepository.findByUid(uid).orElseThrow(() -> new UserDataNotFoundRuntimeException("user account not found"));
         // TODO define role-account schema
         var roles = new ArrayList<String>();
         roles.add("USER");
         return User.builder()
-                .username(account.getUid())
-                .password(account.getPassword())
+                .username(client.getUid())
+                .password(client.getPassword())
                 .roles(roles.toArray(new String[0]))
                 .build();
     }

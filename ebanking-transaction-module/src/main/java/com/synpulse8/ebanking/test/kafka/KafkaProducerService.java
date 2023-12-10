@@ -1,6 +1,6 @@
 package com.synpulse8.ebanking.test.kafka;
 
-import com.synpulse8.ebanking.transaction.dto.TransactionData;
+import com.synpulse8.ebanking.test.kafka.dto.TransactionRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -22,10 +22,10 @@ public class KafkaProducerService {
         log.info("Message sent to topic: " + topic);
     }
 
-    public void sendTransactionMessage(TransactionData transactionData) {
+    public void sendTransactionMessage(TransactionRecord TransactionRecord) {
         var transactionId = UUID.randomUUID().toString();
-        kafkaTransactionTemplate.send("transaction-recordListener-topic", transactionId, transactionData);
-        log.info("Message sent to topic:{}, transactionId:{}, message:{}", "transaction-recordListener-topic", transactionId, transactionData);
+        kafkaTransactionTemplate.send("transaction-record-listener-topic", transactionId, TransactionRecord);
+        log.info("Message sent to topic:{}, transactionId:{}, message:{}", "transaction-record-listener-topic", transactionId, TransactionRecord);
     }
 
 

@@ -45,18 +45,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private void processAuthentication(HttpServletRequest request) throws AuthenticationException {
         var accessToken = jwtUtils.resolveToken(request);
-
         if (Objects.isNull(accessToken)) {
             return;
         }
-
-        log.debug("Token: {}", accessToken);
-
         var claims = jwtUtils.resolveClaims(request);
-
         if (Objects.nonNull(claims) && jwtUtils.validateClaims(claims)) {
             var uid = claims.getSubject();
-            var authentication = new UsernamePasswordAuthenticationToken(uid, "", new ArrayList<>());
+            var ebankingPrincipal = new EbankingPrincipal(uid);
+            var authentication = new UsernamePasswordAuthenticationToken(ebankingPrincipal, "", new ArrayList<>());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
     }
