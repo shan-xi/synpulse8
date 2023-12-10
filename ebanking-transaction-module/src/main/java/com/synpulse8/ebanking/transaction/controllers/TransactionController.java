@@ -1,7 +1,7 @@
-package com.synpulse8.ebanking.transactions.controllers;
+package com.synpulse8.ebanking.transaction.controllers;
 
 import com.synpulse8.ebanking.response.dto.ResponseDto;
-import com.synpulse8.ebanking.transactions.dto.TransactionListRes;
+import com.synpulse8.ebanking.transaction.dto.TransactionListRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

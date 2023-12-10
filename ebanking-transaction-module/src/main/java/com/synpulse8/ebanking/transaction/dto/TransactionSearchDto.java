@@ -1,4 +1,4 @@
-package com.synpulse8.ebanking.transactions.dto;
+package com.synpulse8.ebanking.transaction.dto;
 
 import java.time.LocalDate;
 

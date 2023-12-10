@@ -1,10 +1,10 @@
-package com.synpulse8.ebanking.transactions.controllers;
+package com.synpulse8.ebanking.transaction.controllers;
 
 import com.synpulse8.ebanking.enums.Status;
 import com.synpulse8.ebanking.response.dto.ResponseDto;
-import com.synpulse8.ebanking.transactions.dto.TransactionListRes;
-import com.synpulse8.ebanking.transactions.dto.TransactionSearchDto;
-import com.synpulse8.ebanking.transactions.services.TransactionService;
+import com.synpulse8.ebanking.transaction.dto.TransactionListRes;
+import com.synpulse8.ebanking.transaction.dto.TransactionSearchDto;
+import com.synpulse8.ebanking.transaction.services.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

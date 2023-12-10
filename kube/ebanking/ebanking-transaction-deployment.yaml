@@ -57,6 +57,21 @@ spec:
                 configMapKeyRef:
                   name: mysql-config-map
                   key: mysql-user-username
+            - name: EXCHANGE_RATE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: exchange-rate-secret
+                  key: EXCHANGE_RATE_API_KEY
+            - name: REDIS_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config-map
+                  key: REDIS_SERVER
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config-map
+                  key: REDIS_PORT
       imagePullSecrets:
         - name: regcred
 ---

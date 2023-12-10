@@ -1,7 +1,7 @@
 package com.synpulse8.ebanking.test.kafka;
 
 import com.synpulse8.ebanking.enums.Currency;
-import com.synpulse8.ebanking.transactions.dto.TransactionData;
+import com.synpulse8.ebanking.transaction.dto.TransactionData;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

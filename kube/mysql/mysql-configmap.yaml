@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: mysql-config-map
 data:
-  mysql-server: ebanking-mysql
+  mysql-server: mysql
   mysql-database-name: synpulse8
   mysql-user-username: spin

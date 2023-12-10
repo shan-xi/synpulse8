@@ -1,12 +1,9 @@
-package com.synpulse8.ebanking.transactions.dto;
-
-import com.synpulse8.ebanking.enums.Currency;
+package com.synpulse8.ebanking.transaction.dto;
 
 import java.util.Date;
 
 public record TransactionDto(
         String transactionId,
-        Currency currency,
         Double amount,
         String iban,
         Date valueDate,

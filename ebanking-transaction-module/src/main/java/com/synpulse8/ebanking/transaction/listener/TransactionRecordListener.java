@@ -1,4 +1,4 @@
-package com.synpulse8.ebanking.transactions.listener;
+package com.synpulse8.ebanking.transaction.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,7 @@ import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
 import com.synpulse8.ebanking.exceptions.UserDataNotFoundRuntimeException;
-import com.synpulse8.ebanking.transactions.dto.TransactionData;
+import com.synpulse8.ebanking.transaction.dto.TransactionData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;

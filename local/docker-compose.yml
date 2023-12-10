@@ -1,5 +1,25 @@
-version: '3'
+version: '3.8'
 services:
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: synpulse8
+      MYSQL_USER: spin
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
   zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -59,6 +79,8 @@ services:
       - kafka-2-data:/var/lib/kafka/data
 
 volumes:
+  mysql_data:
+  redis_data:
   kafka-1-data:
   kafka-2-data:
 

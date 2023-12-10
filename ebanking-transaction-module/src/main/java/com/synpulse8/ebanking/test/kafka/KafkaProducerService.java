@@ -1,6 +1,6 @@
 package com.synpulse8.ebanking.test.kafka;
 
-import com.synpulse8.ebanking.transactions.dto.TransactionData;
+import com.synpulse8.ebanking.transaction.dto.TransactionData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;

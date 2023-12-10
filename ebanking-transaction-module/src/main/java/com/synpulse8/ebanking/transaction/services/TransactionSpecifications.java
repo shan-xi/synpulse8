@@ -1,4 +1,4 @@
-package com.synpulse8.ebanking.transactions.services;
+package com.synpulse8.ebanking.transaction.services;
 
 import com.synpulse8.ebanking.dao.account.entity.Account;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
