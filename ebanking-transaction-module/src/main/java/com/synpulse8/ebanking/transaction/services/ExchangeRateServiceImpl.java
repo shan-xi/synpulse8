@@ -35,7 +35,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 .orElseGet(() -> fetchAndCacheExchangeRates(currency));
     }
 
-    private Optional<Map<String, Double>> getExchangeRatesFromCache(String currency) {
+    Optional<Map<String, Double>> getExchangeRatesFromCache(String currency) {
         RBucket<ExchangeRateResponse> bucket = redissonClient.getBucket(currency + "-exchangeRateResponse");
         var exchangeRateResponse = bucket.get();
 
@@ -44,7 +44,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 .map(ExchangeRateResponse::conversionRates);
     }
 
-    private Map<String, Double> fetchAndCacheExchangeRates(String currency) {
+    Map<String, Double> fetchAndCacheExchangeRates(String currency) {
         var apiUrl = "https://v6.exchangerate-api.com/v6/{apiKey}/latest/{currency}";
         var exchangeRateResponse = restTemplate.getForObject(apiUrl, ExchangeRateResponse.class, apiKey, currency);
 
