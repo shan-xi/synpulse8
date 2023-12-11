@@ -7,6 +7,7 @@ import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
 import com.synpulse8.ebanking.enums.BalanceChange;
 import com.synpulse8.ebanking.enums.Currency;
+import com.synpulse8.ebanking.security.PrincipleUtils;
 import com.synpulse8.ebanking.transaction.dto.TransactionSearchDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,8 @@ class TransactionServiceImplUnitTest {
 
     @Mock
     private ClientRepository clientRepository;
+    @Mock
+    private PrincipleUtils principleUtils;
 
     @InjectMocks
     private TransactionServiceImpl transactionService;
@@ -52,7 +55,6 @@ class TransactionServiceImplUnitTest {
         var uid = "P-0123456789";
         var baseCurrency = Currency.USD;
         var searchDto = new TransactionSearchDto(
-                uid,
                 LocalDate.now().minusDays(7),
                 LocalDate.now(),
                 0,
@@ -63,16 +65,16 @@ class TransactionServiceImplUnitTest {
         var account = new Account();
         account.setUid(uid);
         account.setCurrency(Currency.EUR);
+        var transactionPage = createTransactionPage(account);
 
         var client = new Client();
         client.setUid(uid);
         client.setAccountList(Collections.singletonList(account));
 
         when(clientRepository.findByUid(uid)).thenReturn(Optional.of(client));
-
-        var transactionPage = createTransactionPage(account);
         when(transactionRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(transactionPage);
         when(exchangeRateService.getExchangeRates(baseCurrency.name())).thenReturn(Collections.singletonMap("EUR", 1.2));
+        when(principleUtils.getUid()).thenReturn(uid);
 
         // Act
         var actualResult = transactionService.getTransactionList(searchDto);
@@ -105,7 +107,6 @@ class TransactionServiceImplUnitTest {
         var uid = "P-0123456789";
         var baseCurrency = Currency.USD;
         var searchDto = new TransactionSearchDto(
-                uid,
                 LocalDate.now().minusDays(7),
                 LocalDate.now(),
                 0,
@@ -116,16 +117,16 @@ class TransactionServiceImplUnitTest {
         var account = new Account();
         account.setUid(uid);
         account.setCurrency(Currency.EUR);
+        var transactionPage = createTransactionPageWithEmptyTransactionRecord(account);
 
         var client = new Client();
         client.setUid(uid);
         client.setAccountList(Collections.singletonList(account));
 
         when(clientRepository.findByUid(uid)).thenReturn(Optional.of(client));
-
-        var transactionPage = createTransactionPageWithEmptyTransactionRecord(account);
         when(transactionRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(transactionPage);
         when(exchangeRateService.getExchangeRates(baseCurrency.name())).thenReturn(Collections.singletonMap("EUR", 1.2));
+        when(principleUtils.getUid()).thenReturn(uid);
 
         // Act
         var actualResult = transactionService.getTransactionList(searchDto);
