@@ -13,14 +13,7 @@ import java.util.UUID;
 public class KafkaProducerService {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-    @Autowired
     private KafkaTemplate<String, Object> kafkaTransactionTemplate;
-
-    public void sendMessage(String topic, String message) {
-        kafkaTransactionTemplate.send(topic, message);
-        log.info("Message sent to topic: " + topic);
-    }
 
     public void sendTransactionMessage(TransactionRecord TransactionRecord) {
         var transactionId = UUID.randomUUID().toString();

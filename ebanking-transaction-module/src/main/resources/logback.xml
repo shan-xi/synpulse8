@@ -2,7 +2,7 @@
 
 <configuration scan="true">
     <property name="APP" value="ebanking-transaction-module"/>
-    <property name="LOG_HOME" value="logs/ebanking-transaction-module"/>
+    <property name="LOG_HOME" value="logs"/>
     <property name="CHARSET" value="UTF-8"/>
     <property name="PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%class{0}.%method :%L] [%X{uid}] [%msg]%n%rEx"/>
