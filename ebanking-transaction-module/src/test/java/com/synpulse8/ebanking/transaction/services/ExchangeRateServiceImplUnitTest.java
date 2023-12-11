@@ -17,7 +17,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ExchangeRateServiceImplTest {
+class ExchangeRateServiceImplUnitTest {
 
     @Mock
     private RestTemplate restTemplate;

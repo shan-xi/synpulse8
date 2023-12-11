@@ -31,7 +31,7 @@ public interface TransactionController {
                     responseCode = "200",
                     description = "Query user transaction records success",
                     useReturnTypeSchema = true))
-    @GetMapping(value = "/")
+    @GetMapping
     ResponseEntity<ResponseDto<TransactionListRes>> getTransactionList(
             @AuthenticationPrincipal
             EbankingPrincipal ebankingPrincipal,
