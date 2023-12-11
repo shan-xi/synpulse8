@@ -72,6 +72,11 @@ spec:
                 configMapKeyRef:
                   name: redis-config-map
                   key: REDIS_PORT
+            - name: REDISSON_CONFIG_FILE
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-config-map
+                  key: REDISSON_CONFIG_FILE
       imagePullSecrets:
         - name: regcred
 ---

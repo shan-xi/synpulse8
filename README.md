@@ -159,7 +159,6 @@ authorize function on OpenAPI Swagger UI.
     │   │   │   │       │   ├── AppConfig.java  # app config file
     │   │   │   │       │   ├── MetricsConfig.java  # Springboot prometheus registry
     │   │   │   │       │   ├── OpenAPIConfig.java  # Open API swagger config
-    │   │   │   │       │   ├── RedisConfig.java  # redis config file
     │   │   │   │       │   ├── SecurityConfig.java  # Spring security config  
     │   │   │   │       │   └── UpperTableStrategy.java  # Table auto create table naming strategy
     │   │   │   │       ├── /filter  # request filter 
@@ -246,25 +245,29 @@ authorize function on OpenAPI Swagger UI.
     mvn clean package
     mvn spring-boot:run
 
+![image](https://drive.google.com/uc?export=view&id=1qUxnUfz6bF_hnMjfqPmsFt4CtEfCaYWD)
+
 ### stage env
 
 ```
 kubectl create namespace synpulse8
-kubectl apply -f mysql-configmap.yaml --namespace=synpulse8
-kubectl apply -f mysql-secrets.yaml --namespace=synpulse8
-kubectl apply -f mysql-deployment.yaml --namespace=synpulse8
-kubectl apply -f kafka-configmap.yaml --namespace=synpulse8
+kubectl apply -f ./kube/mysql/mysql-configmap.yaml --namespace=synpulse8
+kubectl apply -f ./kube/mysql/mysql-secrets.yaml --namespace=synpulse8
+kubectl apply -f ./kube/mysql/mysql-deployment.yaml --namespace=synpulse8 
+kubectl apply -f ./kube/kafka/kafka-configmap.yaml --namespace=synpulse8
 kubectl create -f 'https://strimzi.io/install/latest?namespace=synpulse8' -n synpulse8
 kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-single.yaml -n synpulse8
-kubectl apply -f redis-configmap.yaml --namespace=synpulse8
-kubectl apply -f redis-deployment.yaml --namespace=synpulse8
-kubectl apply -f exchange-rate-secrets.yaml --namespace=synpulse8
-kubectl apply -f jwt-secrets.yaml --namespace=synpulse8
-kubectl apply -f ebanking-auth-deployment.yaml --namespace=synpulse8
-kubectl apply -f ebanking-transaction-deployment.yaml --namespace=synpulse8
+kubectl apply -f ./kube/redis/redis-configmap.yaml --namespace=synpulse8
+kubectl apply -f ./kube/redis/redis-deployment.yaml --namespace=synpulse8
+kubectl apply -f ./kube/ebanking/exchange-rate-secrets.yaml --namespace=synpulse8
+kubectl apply -f ./kube/ebanking/jwt-secrets.yaml --namespace=synpulse8
+kubectl apply -f ./kube/ebanking/ebanking-auth-deployment.yaml --namespace=synpulse8
+kubectl apply -f ./kube/ebanking/ebanking-transaction-deployment.yaml --namespace=synpulse8
 
 # Prometheus and Grafana portal use local docker. 
 ```
+
+![image](https://drive.google.com/uc?export=view&id=1pPQzjZb4L2skp3hployYMcfmM7UzUEau)
 
 ### Browser URL
 
@@ -274,11 +277,15 @@ kubectl apply -f ebanking-transaction-deployment.yaml --namespace=synpulse8
 http://localhost:8081/ebanking/swagger-ui/index.html
 ```
 
+![image](https://drive.google.com/uc?export=view&id=19VJCQOAy3HmBK6OcvVaA4BOTMB3yb8EF)
+
 * Transaction API Service Swagger
 
 ```
 http://localhost:8082/ebanking/swagger-ui/index.html
 ```
+
+![image](https://drive.google.com/uc?export=view&id=1fOYH4TZf53akdICS1_cTBv9MZnjzVexf)
 
 * Prometheus portal
 
@@ -286,10 +293,14 @@ http://localhost:8082/ebanking/swagger-ui/index.html
 http://localhost:9090/targets
 ```
 
+![image](https://drive.google.com/uc?export=view&id=1GK4EP99jnX7zB2o1DPpfq5u3ZfWBAxxs)
+
 * Grafana portal
 
 ```
 http://localhost:3000/d/spring_boot_21/spring-boot-3-x-statistics?orgId=1
 ```
+
+![image](https://drive.google.com/uc?export=view&id=1hRmYo2Wm9fnspV-ohZs4G-nkszYQXkbv)
 
 ## Reference
