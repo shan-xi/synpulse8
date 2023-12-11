@@ -60,7 +60,8 @@ public class SecurityConfig {
                                 mvc.pattern("/auth/login/**"),
                                 mvc.pattern("/test/**"),
                                 mvc.pattern("/swagger-ui/**"),
-                                mvc.pattern("/v3/**")
+                                mvc.pattern("/v3/**"),
+                                mvc.pattern("/actuator/**")
                         ).permitAll().anyRequest().authenticated());
         return http.build();
     }
