@@ -1,6 +1,5 @@
 package com.synpulse8.ebanking.transaction.services;
 
-import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
 import com.synpulse8.ebanking.dao.client.repo.ClientRepository;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
@@ -19,17 +18,13 @@ import java.util.Objects;
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
-    private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
     private final ExchangeRateService exchangeRateService;
-    private final String BASE_CODE = "TWD";
 
     public TransactionServiceImpl(TransactionRepository transactionRepository,
-                                  AccountRepository accountRepository,
                                   ClientRepository clientRepository,
                                   ExchangeRateService exchangeRateService) {
         this.transactionRepository = transactionRepository;
-        this.accountRepository = accountRepository;
         this.clientRepository = clientRepository;
         this.exchangeRateService = exchangeRateService;
     }
@@ -63,20 +58,24 @@ public class TransactionServiceImpl implements TransactionService {
                 dto.baseCurrency(),
                 transactionPageData.getContent().stream()
                         .map(transaction -> {
-                                    var conversionRate = exchangeRates.get(transaction.getCurrency().name());
-                                    // TODO if conversionRate is null
-                                    var exchangeRate = 1 / conversionRate;
-                                    return new TransactionDto(
-                                            transaction.getTransactionId(),
-                                            transaction.getAmount() * exchangeRate,
-                                            transaction.getBalanceChange(),
-                                            transaction.getIban(),
-                                            transaction.getValueDate(),
-                                            transaction.getDescription(),
-                                            transaction.getAccount().getUid()
-                                    );
-                                }
-                        ).toList()
+                            var currencyName = transaction.getCurrency().name();
+                            var conversionRate = exchangeRates.get(currencyName);
+                            if (Objects.isNull(conversionRate)) {
+                                return null;
+                            }
+                            var exchangeRate = 1 / conversionRate;
+                            return new TransactionDto(
+                                    transaction.getTransactionId(),
+                                    transaction.getAmount() * exchangeRate,
+                                    transaction.getBalanceChange(),
+                                    transaction.getIban(),
+                                    transaction.getValueDate(),
+                                    transaction.getDescription(),
+                                    transaction.getAccount().getUid()
+                            );
+                        })
+                        .filter(Objects::nonNull)
+                        .toList()
         );
     }
 }
