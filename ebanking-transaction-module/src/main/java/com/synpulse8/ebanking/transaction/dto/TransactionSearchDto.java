@@ -5,7 +5,6 @@ import com.synpulse8.ebanking.enums.Currency;
 import java.time.LocalDate;
 
 public record TransactionSearchDto(
-        String accountUid,
         LocalDate startDate,
         LocalDate endDate,
         Integer pageNumber,

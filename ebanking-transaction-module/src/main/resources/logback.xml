@@ -5,7 +5,7 @@
     <property name="LOG_HOME" value="logs/ebanking-transaction-module"/>
     <property name="CHARSET" value="UTF-8"/>
     <property name="PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%class{0}.%method :%L] [%msg]%n%rEx"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%class{0}.%method :%L] [%X{uid}] [%msg]%n%rEx"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

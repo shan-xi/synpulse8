@@ -3,10 +3,11 @@ package com.synpulse8.ebanking.transaction.services;
 import com.synpulse8.ebanking.dao.client.repo.ClientRepository;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
+import com.synpulse8.ebanking.security.PrincipleUtils;
 import com.synpulse8.ebanking.transaction.dto.TransactionDto;
 import com.synpulse8.ebanking.transaction.dto.TransactionListRes;
 import com.synpulse8.ebanking.transaction.dto.TransactionSearchDto;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -15,32 +16,36 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final ClientRepository clientRepository;
     private final ExchangeRateService exchangeRateService;
+    private final PrincipleUtils principleUtils;
 
     public TransactionServiceImpl(TransactionRepository transactionRepository,
                                   ClientRepository clientRepository,
-                                  ExchangeRateService exchangeRateService) {
+                                  ExchangeRateService exchangeRateService,
+                                  PrincipleUtils principleUtils) {
         this.transactionRepository = transactionRepository;
         this.clientRepository = clientRepository;
         this.exchangeRateService = exchangeRateService;
+        this.principleUtils = principleUtils;
     }
 
     @Override
     public TransactionListRes getTransactionList(TransactionSearchDto dto) {
         var pageable = PageRequest.of(dto.pageNumber(), dto.pageSize());
         Specification<Transaction> spec = Specification.where(null);
-        if (StringUtils.isNoneEmpty(dto.accountUid())) {
-            var clientOptional = clientRepository.findByUid(dto.accountUid());
-            if (clientOptional.isPresent() && !CollectionUtils.isEmpty(clientOptional.get().getAccountList())) {
-                var accountList = clientOptional.get().getAccountList();
-                spec = spec.and(TransactionSpecifications.accountIn(accountList));
-            } else {
-                return new TransactionListRes(dto.pageNumber(), dto.pageSize(), 0, 0L, dto.baseCurrency(), List.of());
-            }
+
+        var uid = principleUtils.getUid();
+        var clientOptional = clientRepository.findByUid(uid);
+        if (clientOptional.isPresent() && !CollectionUtils.isEmpty(clientOptional.get().getAccountList())) {
+            var accountList = clientOptional.get().getAccountList();
+            spec = spec.and(TransactionSpecifications.accountIn(accountList));
+        } else {
+            return new TransactionListRes(dto.pageNumber(), dto.pageSize(), 0, 0L, dto.baseCurrency(), List.of());
         }
         if (Objects.nonNull(dto.startDate())) {
             spec = spec.and(TransactionSpecifications.valueDateGreaterThanOrEqualTo(dto.startDate()));
