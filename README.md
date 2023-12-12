@@ -7,7 +7,7 @@ transactions created in an arbitrary calendar month for a given customer who is 
 transaction 'page' return the total credit and debit values at the current exchange rate.
 [Reference.](https://challenges.synpulse8.com/backend-engineer/)
 
-[CircleCI Pipeline](https://app.circleci.com/pipelines/circleci/MRBmi5go3TNZnWzFBFHiXV)
+[CircleCI Pipeline](https://app.circleci.com/pipelines/github/shan-xi/synpulse8/1/workflows/da419be0-2212-48a3-9360-d1f5d34da405)
 
 ## Table of Contents
 
