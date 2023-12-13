@@ -7,12 +7,17 @@ transactions created in an arbitrary calendar month for a given customer who is 
 transaction 'page' return the total credit and debit values at the current exchange rate.
 [Reference.](https://challenges.synpulse8.com/backend-engineer/)
 
-[CircleCI Pipeline](https://app.circleci.com/pipelines/github/shan-xi/synpulse8/1/workflows/da419be0-2212-48a3-9360-d1f5d34da405)
+## External Service
+
+- [CircleCI Pipeline](https://app.circleci.com/pipelines/github/shan-xi/synpulse8/1/workflows/da419be0-2212-48a3-9360-d1f5d34da405)
+- [Exchange Rate API service](https://app.exchangerate-api.com/)
 
 ## Table of Contents
 
 - [Requirement Implementation Idea](#requirement-implementation-idea)
 - [Project Structure](#project-structure)
+- [Integration Test](#integration-test)
+- [Tech](#tech)
 - [How to Play?](#how-to-play)
 - [Reference](#reference)
 
@@ -228,6 +233,35 @@ authorize function on OpenAPI Swagger UI.
     ├── .gitignore # Git ignore file
     └── README.md # Project documentation
 ````
+
+## Integration Test
+
+Due to embedded redis has some issue on macos chip M1. So, in this project, I don't write springboot integration test
+code of transaction module for maven test. Only auth module can work with maven test.
+
+### Steps:
+
+* Step1. Simulation on creating an client with an account: http://localhost:8081/ebanking/test/account/create-account
+* Step2. Login in system, get JWT: http://localhost:8081/ebanking/auth/login
+* Step3. Simulation on kafka topic producer to create transaction
+  records: http://localhost:8082/ebanking/test/kafka/send-transaction-message
+* Step4. Get User's transaction history records with JWT: http://localhost:8082/ebanking/transactions
+
+## Tech
+
+* Java 17
+* Springboot 3.x, Spring Data Jpa, Spring Web, Spring Security, Spring kafka
+* Hibernate
+* Docker
+* Kubernates
+* Kafka
+* Mysql
+* Redis
+* JWT
+* CircleCI
+* OpenAPI Swagger
+* Prometheus
+* Grafana
 
 ## How to Play?
 
