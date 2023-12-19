@@ -1,5 +1,6 @@
 package com.synpulse8.ebanking.transaction.services;
 
+import com.synpulse8.ebanking.dao.account.repo.AccountRepository;
 import com.synpulse8.ebanking.dao.client.repo.ClientRepository;
 import com.synpulse8.ebanking.dao.transaction.entity.Transaction;
 import com.synpulse8.ebanking.dao.transaction.repo.TransactionRepository;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -23,18 +25,22 @@ public class TransactionServiceImpl implements TransactionService {
     private final ClientRepository clientRepository;
     private final ExchangeRateService exchangeRateService;
     private final PrincipleUtils principleUtils;
+    private final AccountRepository accountRepository;
 
     public TransactionServiceImpl(TransactionRepository transactionRepository,
                                   ClientRepository clientRepository,
                                   ExchangeRateService exchangeRateService,
-                                  PrincipleUtils principleUtils) {
+                                  PrincipleUtils principleUtils,
+                                  AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
         this.clientRepository = clientRepository;
         this.exchangeRateService = exchangeRateService;
         this.principleUtils = principleUtils;
+        this.accountRepository = accountRepository;
     }
 
     @Override
+    @Transactional
     public TransactionListRes getTransactionList(TransactionSearchDto dto) {
         var pageable = PageRequest.of(dto.pageNumber(), dto.pageSize());
         Specification<Transaction> spec = Specification.where(null);

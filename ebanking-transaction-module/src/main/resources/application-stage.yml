@@ -1,0 +1,72 @@
+spring:
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: group-synpulse8
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092,localhost:39092}
+  jpa:
+    generate-ddl: 'true'
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: com.synpulse8.ebanking.config.UpperTableStrategy
+    properties:
+      hibernate:
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          factory_class: org.redisson.hibernate.RedissonRegionFactory
+          redisson:
+            fallback: true
+            config: redisson-stage.yaml
+    show-sql: 'false'
+    open-in-view: 'false'
+  redis:
+    host: ${REDIS_SERVER:redis}
+    port: ${REDIS_PORT:6379}
+  datasource:
+    hikari:
+      maximum-pool-size: '10'
+      auto-commit: 'true'
+      connection-timeout: '30000'
+      pool-name: ebanking-hikari
+      max-lifetime: '28000000'
+      connection-test-query: select 1
+    password: ${DB_PASSWORD:12345}
+    username: ${DB_USERNAME:root}
+    url: jdbc:mysql://${DB_SERVER:localhost}:${DB_PORT:3306}/${DB_NAME:synpulse8}
+  config:
+    activate:
+      on-profile: stage
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+server:
+  port: '8082'
+  servlet:
+    forward-headers-strategy: framework
+    context-path: /ebanking
+exchange-rate-api:
+  key: ${EXCHANGE_RATE_API_KEY}
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: INFO
+      hibernate:
+        cache: DEBUG
+    net:
+      shahto: DEBUG
+ebanking:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY:synpulse8}
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha

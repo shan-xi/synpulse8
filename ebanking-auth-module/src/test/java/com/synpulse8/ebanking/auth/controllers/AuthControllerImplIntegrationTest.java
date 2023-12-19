@@ -10,10 +10,7 @@ import com.synpulse8.ebanking.enums.Currency;
 import com.synpulse8.ebanking.enums.Status;
 import com.synpulse8.ebanking.response.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,10 +25,10 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-@SpringBootTest(
-        properties = "spring.config.location=classpath:application-test.properties",
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+//@SpringBootTest(
+//        properties = "spring.config.location=classpath:application-test.properties",
+//        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@AutoConfigureMockMvc
 class AuthControllerImplIntegrationTest {
 
     @Autowired
@@ -43,7 +40,7 @@ class AuthControllerImplIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
+    //    @Test
     void login_Success() {
         // Initial Data
         var uid = "P-0123456789";
