@@ -1,0 +1,22 @@
+package com.synpulse8.ebanking.dao.utils;
+
+public enum SqlOperator {
+
+    IS,
+    LIKE,
+    LIKE_IGNORE_CASE,
+    IN,
+    NOT_IN,
+    NOT,
+    GREATER_THAN,
+    GREATER_THAN_TO_DATE,
+    GREATER_THAN_OR_EQUAL_TO,
+    GREATER_THAN_OR_EQUAL_TO_DATE,
+    GREATER_THAN_OR_EQUAL_TO_LOCAL_DATE,
+    LESS_THAN,
+    LESS_THAN_TO_DATE,
+    LESS_THAN_OR_EQUAL_TO,
+    LESS_THAN_OR_EQUAL_TO_DATE,
+    LESS_THAN_OR_EQUAL_TO_LOCAL_DATE
+
+}

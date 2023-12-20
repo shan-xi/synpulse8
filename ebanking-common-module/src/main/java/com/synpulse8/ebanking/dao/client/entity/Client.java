@@ -23,12 +23,16 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "uid", columnDefinition = " VARCHAR(12) COMMENT 'account uid' ")
     private String uid;
+
     @Column(name = "name", columnDefinition = " varchar(20) COMMENT 'account name' ")
     private String name;
+
     @Column(name = "password", columnDefinition = " varchar(100) COMMENT 'password' ")
     private String password;
+
     @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Account> accountList;

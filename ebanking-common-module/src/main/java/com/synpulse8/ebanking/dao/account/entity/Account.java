@@ -25,21 +25,29 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "uid", columnDefinition = " VARCHAR(12) COMMENT 'account uid' ")
     private String uid;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "currency", columnDefinition = "VARCHAR(3) COMMENT 'Currency'")
     private Currency currency;
+
     @Column(name = "iban", columnDefinition = " varchar(26) COMMENT 'IBAN' ")
     private String iban;
+
     @OneToMany(mappedBy = "account", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Transaction> transactionList;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SELECT)
     @BatchSize(size = 100)
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @Column(name = "client_id", updatable = false, insertable = false, columnDefinition = " BIGINT ")
+    private Long clientId;
 
     public Long getId() {
         return id;

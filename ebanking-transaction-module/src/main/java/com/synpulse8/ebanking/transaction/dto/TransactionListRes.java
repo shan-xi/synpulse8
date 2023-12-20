@@ -18,5 +18,5 @@ public record TransactionListRes(
         @Schema(description = "base currency", example = "TWD")
         Currency baseCurrency,
         @Schema(description = "transaction list")
-        List<TransactionDto> transactionDtoList) {
+        List<TransactionRes> transactionResList) {
 }
