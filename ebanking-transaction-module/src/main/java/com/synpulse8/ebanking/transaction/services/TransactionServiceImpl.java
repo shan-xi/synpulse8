@@ -87,7 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
                             }
                             return new TransactionRes(
                                     transaction.transactionId(),
-                                    transaction.accountId() * exchangeRate,
+                                    transaction.amount() * exchangeRate,
                                     transaction.balanceChange(),
                                     transaction.iban(),
                                     transaction.valueDate(),
