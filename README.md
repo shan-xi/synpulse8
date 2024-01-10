@@ -276,7 +276,7 @@ code of transaction module for maven test. Only auth module can work with maven 
     docker-compose up -d
     
     # run e-banking service
-    mvn clean package
+    mvn clean package -P local
     mvn spring-boot:run
 
 ![image](https://drive.google.com/uc?export=view&id=1qUxnUfz6bF_hnMjfqPmsFt4CtEfCaYWD)
@@ -285,7 +285,7 @@ code of transaction module for maven test. Only auth module can work with maven 
 
 ```
 # upload stage docker image to docker hub
-mvn clean package
+mvn clean package -P stage
 cd ebanking-auth-module
 docker build -t spinliao/ebanking-auth:1.0 .
 docker push spinliao/ebanking-auth:1.0
