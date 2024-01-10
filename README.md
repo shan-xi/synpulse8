@@ -284,6 +284,17 @@ code of transaction module for maven test. Only auth module can work with maven 
 ### stage env
 
 ```
+# upload stage docker image to docker hub
+mvn clean package
+cd ebanking-auth-module
+docker build -t spinliao/ebanking-auth:1.0 .
+docker push spinliao/ebanking-auth:1.0
+cd ..
+cd ebanking-transaction-module
+docker build -t spinliao/ebanking-transaction:1.0 .
+docker push spinliao/ebanking-transaction:1.0
+
+# deploy to kubernates
 kubectl create namespace synpulse8
 kubectl apply -f ./kube/mysql/mysql-configmap.yaml --namespace=synpulse8
 kubectl apply -f ./kube/mysql/mysql-secrets.yaml --namespace=synpulse8
@@ -299,6 +310,10 @@ kubectl apply -f ./kube/ebanking/ebanking-auth-deployment.yaml --namespace=synpu
 kubectl apply -f ./kube/ebanking/ebanking-transaction-deployment.yaml --namespace=synpulse8
 
 # Prometheus and Grafana portal use local docker. 
+
+# how to delete
+kubectl delete namespace synpulse8
+kubectl -n synpulse8 delete -f 'https://strimzi.io/install/latest?namespace=synpulse8'
 ```
 
 ![image](https://drive.google.com/uc?export=view&id=1pPQzjZb4L2skp3hployYMcfmM7UzUEau)
